@@ -1,2 +1,4 @@
 ﻿  Vjezba1.c
-  Vjezba1.vcxproj -> C:\Lab\PavlovicAndrej\labovi\Vjezba1\Debug\Vjezba1.exe
+c:\lab\pavlovicandrej\labovi\vjezba1\vjezba1\vjezba1.c(20): warning C4550: expression evaluates to a function which is missing an argument list
+c:\lab\pavlovicandrej\labovi\vjezba1\vjezba1\vjezba1.c(14): warning C4101: 'stud': unreferenced local variable
+c:\lab\pavlovicandrej\labovi\vjezba1\vjezba1\vjezba1.c(24): error C4700: uninitialized local variable 'noRows' used
