@@ -19,7 +19,7 @@ int main()
 	dat = fopen("lista.txt", "r");
 
 	for (c = getc(dat); c != EOF; c = getc(dat))
-		if (c == '\n') // Increment count if this character is newline
+		if (c == '\n')
 			noRows = noRows + 1;
 	printf("%d", noRows);
 	return 0;
