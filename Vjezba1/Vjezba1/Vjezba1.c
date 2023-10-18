@@ -14,17 +14,13 @@ int main()
 	student stud;
 	FILE *dat;
 	int noRows;
+	char c;
 
 	dat = fopen("lista.txt", "r");
 
-	while (!feof)
-	{
-		if (fgetc(dat) == '\n')
-		{
-			noRows++;
-		}
-
-	}
+	for (c = getc(dat); c != EOF; c = getc(dat))
+		if (c == '\n') // Increment count if this character is newline
+			noRows = noRows + 1;
 	printf("%d", noRows);
 	return 0;
 }
