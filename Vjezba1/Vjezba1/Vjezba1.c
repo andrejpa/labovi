@@ -22,5 +22,7 @@ int main()
 		if (c == '\n')
 			noRows = noRows + 1;
 	printf("%d", noRows);
+	fclose(dat);
+
 	return 0;
 }
