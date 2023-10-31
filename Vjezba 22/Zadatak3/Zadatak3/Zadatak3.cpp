@@ -130,26 +130,72 @@ Osoba *novaiza(Osoba *lista, const char *prezime)
 
 }
 
-Osoba *pronp(Osoba *lista)
+Osoba *pronp(Osoba *lista, const char *prezime)
 {
-	Osoba *pros = NULL;
+	Osoba *nova = (Osoba*)malloc(sizeof(Osoba));
 	Osoba *trenutni = lista;
 
 
-	while (pros != NULL)
-	{
-		if (prethodni == NULL) {
-			lista = trenutni->next;
+while (trenutni != NULL) {
+		if (strcmp(trenutni->next->prezime, prezime) == 0) {
+		    
+			printf("\nUnesi ime:");
+			scanf("%s", nova->ime);
+			printf("\nUnesi prezime:");
+			scanf("%s", nova->prezime);
+			printf("\nUnesi god:");
+			scanf("%d", &nova->god);
+			
+			nova->next = trenutni->next;
+    		trenutni -> next = nova;
+    		
+    		return lista;
 		}
-		else {
-			prethodni->next = trenutni->next;
-		}
-
-		pros = pros->next;
+		
+		trenutni = trenutni->next;
 	}
+	printf("Nije pronaden");
+	return NULL;
 }
 
+void upisi(Osoba* lista, const char *datn){
+    FILE *dat = fopen(datn, "w");
+    
+    if(dat == NULL)
+    {
+        printf("Nije otvorena datoteka");
+    }
+    
+    Osoba* trenutni = lista;
+    while(trenutni != NULL){
+        fprintf(dat, "Ime: %s \t Prezime: %s \t God: %d \n", trenutni->ime, trenutni->prezime, trenutni->god);
+        trenutni  = trenutni->next;
+    }
+    fclose(dat);
+}
 
+Osoba* izdat(Osoba* lista, const char *datoteka) {
+    FILE *dat = fopen(datoteka, "r");
+
+    if (dat == NULL) {
+        printf("Nije moguće otvoriti datoteku za čitanje.\n");
+        return NULL;
+    }
+
+
+
+    Osoba nova = {"", "", 0};
+    
+    while (fscanf(dat, "Ime: %s Prezime: %s God: %d\n", nova.ime, nova.prezime, &nova.god) == 3) {
+        
+        nova.next = NULL;
+
+        lista = naKraj(lista, nova);
+    }
+
+    fclose(dat);
+    return lista;
+}
 
 
 int main() {
@@ -158,7 +204,7 @@ int main() {
 
 
 	while (1) {
-		printf(" 1. Dodaj na pocetak \n 2. Ispis \n 3. Pronadi \n 4. Obrisi \n 5. Izlaz iz programa \n 6. Na kraj \n 7. dinm iza \n");
+		printf(" 1. Dodaj na pocetak \n 2. Ispis \n 3. Pronadi \n 4. Obrisi \n 5. Izlaz iz programa \n 6. Na kraj \n 7. Dinamicki iza \n 8. Dinamicki ispred \n 9. Ispis u datoteka \n 10. Upis iz datoteke\n");
 
 		int sel;
 		scanf("%d", &sel);
@@ -219,8 +265,22 @@ int main() {
 			char m[50] = "";
 			printf("Ispred:\n");
 			scanf("%s", m);
-			prosli = pronp(lista);
-			lista = novaiza(prosli, m);
+			lista = pronp(lista, m);
+		}
+		else if (sel == 9){
+		    char datn[50]="";
+		    
+		    printf("Unesi ime datoteke:");
+		    scanf("%s", datn);
+		    upisi(lista, datn);
+		}
+		else if (sel == 10){
+		    char datn[50]="";
+		    
+		    printf("Unesi ime datoteke:");
+		    scanf("%s", datn);
+		    lista = izdat(lista, datn);
+
 		}
 	}
 
