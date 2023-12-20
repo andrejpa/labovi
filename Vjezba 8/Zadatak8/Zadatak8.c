@@ -72,7 +72,7 @@ int inorder(Position root) {
         printf("%d ", root->x);
         inorder(root->R);
     }
-    return EXIT_SUCCESS;
+    return 1;
 }
 int preorder(Position root) {
     if (root != NULL) {
@@ -80,7 +80,7 @@ int preorder(Position root) {
         preorder(root->L);
         preorder(root->R);
     }
-    return EXIT_SUCCESS;
+    return 1;
 }
 
 int postorder(Position root) {
@@ -89,29 +89,7 @@ int postorder(Position root) {
         postorder(root->R);
         printf("%d ", root->x);
     }
-    return EXIT_SUCCESS;
-}
-
-int levelorder(Position root) {
-    if (root == NULL)
-        return 0;
-    Position q[100];
-    int start = 0, end = 0;
-
-    q[end++] = root;
-
-    while (start < end) {
-        Position current = q[start++];
-
-        printf("%d ", current->x);
-
-        if (current->L != NULL)
-            q[end++] = current->L;
-
-        if (current->R != NULL)
-            q[end++] = current->R;
-    }
-    return EXIT_SUCCESS;
+    return 1;
 }
 
 Position trazi(Position root, int x) {
