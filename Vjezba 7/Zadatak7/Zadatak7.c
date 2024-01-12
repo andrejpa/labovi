@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,125 +6,110 @@
 #define MAX 50
 
 
-typedef struct _directory* PositionDirectory;
-typedef struct _directory {
+typedef struct folder* PositionFolder;
+typedef struct folder {
     char name[MAX];
-    PositionDirectory pod;
-    PositionDirectory next;
-} Directory;
+    PositionFolder pod;
+    PositionFolder next;
+} Folder;
 
 
 typedef struct _Stog* PositionStog;
 typedef struct _Stog {
-    PositionDirectory level;
+    PositionFolder level;
     PositionStog next;
 } Stog;
 
-PositionDirectory createDir(char name[MAX]) {
-    PositionDirectory novi = NULL;
-    novi = (PositionDirectory)malloc(sizeof(Directory));
-    if (!novi) {
+PositionFolder createFolder(char name[MAX]) {
+    PositionFolder newFolder = (PositionFolder)malloc(sizeof(Folder));
+    if (!newFolder) {
         printf("Greska u alokaciji\n");
         return NULL;
     }
-    strcpy(novi->name, name);
-    novi->pod = NULL;
-    novi->next = NULL;
-    return novi;
+    
+    strcpy(newFolder->name, name);
+    newFolder->pod = NULL;
+    newFolder->next = NULL;
+    return newFolder;
 }
 
-PositionDirectory createSub(char name[MAX], PositionDirectory currentDir) {
-    PositionDirectory novi = NULL;
-    novi = createDir(name);
-    if (!novi) {
+PositionFolder createSub(char name[MAX], PositionFolder currentDir) {
+    PositionFolder newFolder = createFolder(name);
+    if (!newFolder) {
         printf("Greska\n");
         return NULL;
     }
-    novi->next = currentDir->pod;
-    currentDir->pod = novi;
-    return novi;
+    newFolder->next = currentDir->pod;
+    currentDir->pod = newFolder;
 }
 
-PositionDirectory cDir(char name[MAX], PositionDirectory currentDir) {
-    PositionDirectory poddir = currentDir->pod;
-    while (poddir != NULL) {
-        if (strcmp(poddir->name, name) == 0) {
-            return poddir;
+PositionFolder CD(char name[MAX], PositionFolder currentDir) {
+    PositionFolder insideFolder = currentDir->pod;
+    
+    while (insideFolder != NULL) {
+        if (strcmp(insideFolder->name, name) == 0) {
+            return insideFolder;
         }
-        poddir = poddir->next;
+        insideFolder = insideFolder->next;
     }
-    printf("Direktorji ne postoji\n", name);
+    
+    printf("Direktorji ne postoji\n");
     return currentDir;
 }
 
-int ispis(PositionDirectory currentDir) {
-    printf("--%s--\n", currentDir->name);
-    PositionDirectory poddir = currentDir->pod;
-    while (poddir != NULL) {
-        printf("\t - %s\n", poddir->name);
-        poddir = poddir->next;
+int DIR(PositionFolder currentDir) {
+    printf("|->%s\n", currentDir->name);
+    PositionFolder insideFolder = currentDir->pod;
+    
+    while (insideFolder != NULL) {
+        printf("\t - %s\n", insideFolder->name);
+        insideFolder = insideFolder->next;
     }
+    
     if (currentDir->pod == NULL) {
-        printf("\t empty\n");
+        printf("\t Prazan folder\n");
     }
-    return 0;
 }
 
 
-PositionDirectory pop(PositionStog headStog) {
-    PositionStog toDelete = NULL;
-    PositionDirectory level = NULL;
-
-    toDelete = headStog->next;
+PositionFolder pop(PositionStog headStog) {
+    PositionStog toDelete = headStog->next;
     if (!toDelete) {
         printf("Prazan stog\n");
-        return NULL;
+        return;
     }
-
+    
+    PositionFolder level = toDelete->level;
     headStog->next = toDelete->next;
-    level = toDelete->level;
     free(toDelete);
 
     return level;
 }
-PositionStog noviStogEl(PositionDirectory level) {
-    PositionStog novi = NULL;
 
-    novi = (PositionStog)malloc(sizeof(Stog));
-    if (!novi) {
-        perror("Greska u alokaciji\n");
-        return NULL;
-    }
-
-    novi->level = level;
-    novi->next = NULL;
-
-    return novi;
-}
-int push(PositionStog headStog, PositionDirectory level) {
-    PositionStog novi = NULL;
-
-    novi = noviStogEl(level);
-    if (!novi) {
+void push(PositionStog headStog, PositionFolder level) {
+    PositionStog newFolder = (PositionStog)malloc(sizeof(level));
+    if (!newFolder) {
         perror("Greska\n");
-        return NULL;
+        return;
     }
-
-    novi->next = headStog->next;
-    headStog->next = novi;
+    
+    newFolder->level = level;
+    newFolder->next = headStog->next;
+    headStog->next = newFolder;
 }
 
 
 int main() {
-    Directory headDirectory = {
+    Folder headFolder = {
         .name = {0},
         .pod = NULL,
         .next = NULL
     };
-    PositionDirectory mainDir = createDir("C:");
-    headDirectory.next = mainDir;
+    
+    PositionFolder mainDir = createFolder("C:");
+    headFolder.next = mainDir;
 
-    PositionDirectory currentDir = mainDir;
+    PositionFolder currentDir = mainDir;
 
     Stog headStog = {
         .level = NULL,
@@ -144,27 +129,30 @@ int main() {
 
         if (x == 1) {
             char dirName[MAX];
-            printf("Ime:\n");
+            printf("\tIme:\n");
             scanf("%s", dirName);
             createSub(dirName, currentDir);
         }
         else if (x == 2) {
             char dirName[MAX];
-            printf("Ime:\n");
+            
+            printf("\tIme:\n");
             scanf("%s", dirName);
-            currentDir = cDir(dirName, currentDir);
+            
             push(&headStog, currentDir);
+                        currentDir = CD(dirName, currentDir);
+
         } else if (x == 3) {
             if (currentDir != mainDir) {
                 currentDir = pop(&headStog);
                 printf("%s\n", currentDir->name);
             }
             else {
-                printf("U prvom direktoriju\n");
+                printf("\tU prvom direktoriju\n");
                 
             }
         } else if (x == 4) {
-            ispis(currentDir);
+            DIR(currentDir);
         } else if (x == 5) {
             break;
         }
@@ -172,4 +160,3 @@ int main() {
 
     return 0;
 }
-
