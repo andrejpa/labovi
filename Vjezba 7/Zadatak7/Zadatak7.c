@@ -21,16 +21,10 @@ typedef struct _Stog {
 } Stog;
 
 PositionFolder createFolder(char name[MAX]);
-
 PositionFolder createSub(char name[MAX], PositionFolder currentDir);
-
 PositionFolder CD(char name[MAX], PositionFolder currentDir);
-
 int DIR(PositionFolder currentDir);
-
-
 PositionFolder pop(PositionStog headStog);
-
 void push(PositionStog headStog, PositionFolder level);
 
 
