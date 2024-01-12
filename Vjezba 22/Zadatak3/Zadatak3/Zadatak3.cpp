@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +10,121 @@ typedef struct Osoba {
 	struct Osoba *next;
 } Osoba;
 
+//pocetak liste
+Osoba *naPocetak(Osoba *lista, Osoba nova);
+
+//ispis
+void ispisi(Osoba *lista);
+
+//na kraj liste
+Osoba *naKraj(Osoba *lista, Osoba newL);
+
+// pronalazenje
+Osoba *pronadi(Osoba *lista, const char *prezime);
+
+// brisanje
+Osoba *obrisi(Osoba *lista, const char *prezime);
+
+Osoba *novaiza(Osoba *lista, const char *prezime);
+
+Osoba *pronp(Osoba *lista, const char *prezime);
+
+
+void upisi(Osoba* lista, const char *datn);
+
+Osoba* izdat(Osoba* lista, const char *datoteka);
+
+
+
+int main() {
+	Osoba *lista = NULL;
+
+
+
+	while (1) {
+		printf(" 1. Dodaj na pocetak \n 2. Ispis \n 3. Pronadi \n 4. Obrisi \n 5. Izlaz iz programa \n 6. Na kraj \n 7. Dinamicki iza \n 8. Dinamicki ispred \n 9. Ispis u datoteka \n 10. Upis iz datoteke\n");
+
+		int sel;
+		scanf("%d", &sel);
+
+		if (sel == 1)
+		{
+			Osoba newL;
+			printf("\nUnesi ime:");
+			scanf("%s", newL.ime);
+			printf("\nUnesi prezime:");
+			scanf("%s", newL.prezime);
+			printf("\nUnesi god:");
+			scanf("%d", &newL.god);
+			lista = naPocetak(lista, newL);
+		}
+		else if (sel == 2)
+		{
+			ispisi(lista);
+		}
+		else if (sel == 3)
+		{
+			char prez[50] = "";
+			printf("Unesi prezime za pretraziti:\n");
+			scanf("%s", prez);
+			pronadi(lista, prez);
+		}
+		else if (sel == 4)
+		{
+			char b[50] = "";
+			printf("Koje prezime zelis obrisati:\n");
+			scanf("%s", b);
+			lista = obrisi(lista, b);
+		}
+		else if (sel == 5)
+		{
+			return 0;
+		}
+		else if (sel == 6)
+		{
+			Osoba newL;
+			printf("\nUnesi ime:");
+			scanf("%s", newL.ime);
+			printf("\nUnesi prezime:");
+			scanf("%s", newL.prezime);
+			printf("\nUnesi god:");
+			scanf("%d", &newL.god);
+			lista = naKraj(lista, newL);
+		}
+		else if (sel == 7) {
+			char n[50] = "";
+			printf("Iza:\n");
+			scanf("%s", n);
+			lista = novaiza(lista, n);
+		}
+		else if (sel == 8)
+		{
+			Osoba *prosli;
+			char m[50] = "";
+			printf("Ispred:\n");
+			scanf("%s", m);
+			lista = pronp(lista, m);
+		}
+		else if (sel == 9){
+		    char datn[50]="";
+		    
+		    printf("Unesi ime datoteke:");
+		    scanf("%s", datn);
+		    upisi(lista, datn);
+		}
+		else if (sel == 10){
+		    char datn[50]="";
+		    
+		    printf("Unesi ime datoteke:");
+		    scanf("%s", datn);
+		    lista = izdat(lista, datn);
+
+		}
+	}
+
+
+	return 0;
+}
 
 //pocetak liste
 Osoba *naPocetak(Osoba *lista, Osoba nova) {
@@ -197,93 +312,3 @@ Osoba* izdat(Osoba* lista, const char *datoteka) {
     return lista;
 }
 
-
-int main() {
-	Osoba *lista = NULL;
-
-
-
-	while (1) {
-		printf(" 1. Dodaj na pocetak \n 2. Ispis \n 3. Pronadi \n 4. Obrisi \n 5. Izlaz iz programa \n 6. Na kraj \n 7. Dinamicki iza \n 8. Dinamicki ispred \n 9. Ispis u datoteka \n 10. Upis iz datoteke\n");
-
-		int sel;
-		scanf("%d", &sel);
-
-		if (sel == 1)
-		{
-			Osoba newL;
-			printf("\nUnesi ime:");
-			scanf("%s", newL.ime);
-			printf("\nUnesi prezime:");
-			scanf("%s", newL.prezime);
-			printf("\nUnesi god:");
-			scanf("%d", &newL.god);
-			lista = naPocetak(lista, newL);
-		}
-		else if (sel == 2)
-		{
-			ispisi(lista);
-		}
-		else if (sel == 3)
-		{
-			char prez[50] = "";
-			printf("Unesi prezime za pretraziti:\n");
-			scanf("%s", prez);
-			pronadi(lista, prez);
-		}
-		else if (sel == 4)
-		{
-			char b[50] = "";
-			printf("Koje prezime zelis obrisati:\n");
-			scanf("%s", b);
-			lista = obrisi(lista, b);
-		}
-		else if (sel == 5)
-		{
-			return 0;
-		}
-		else if (sel == 6)
-		{
-			Osoba newL;
-			printf("\nUnesi ime:");
-			scanf("%s", newL.ime);
-			printf("\nUnesi prezime:");
-			scanf("%s", newL.prezime);
-			printf("\nUnesi god:");
-			scanf("%d", &newL.god);
-			lista = naKraj(lista, newL);
-		}
-		else if (sel == 7) {
-			char n[50] = "";
-			printf("Iza:\n");
-			scanf("%s", n);
-			lista = novaiza(lista, n);
-		}
-		else if (sel == 8)
-		{
-			Osoba *prosli;
-			char m[50] = "";
-			printf("Ispred:\n");
-			scanf("%s", m);
-			lista = pronp(lista, m);
-		}
-		else if (sel == 9){
-		    char datn[50]="";
-		    
-		    printf("Unesi ime datoteke:");
-		    scanf("%s", datn);
-		    upisi(lista, datn);
-		}
-		else if (sel == 10){
-		    char datn[50]="";
-		    
-		    printf("Unesi ime datoteke:");
-		    scanf("%s", datn);
-		    lista = izdat(lista, datn);
-
-		}
-	}
-
-
-	return 0;
-}
