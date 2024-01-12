@@ -20,6 +20,81 @@ typedef struct _Stog {
     PositionStog next;
 } Stog;
 
+PositionFolder createFolder(char name[MAX]);
+
+PositionFolder createSub(char name[MAX], PositionFolder currentDir);
+
+PositionFolder CD(char name[MAX], PositionFolder currentDir);
+
+int DIR(PositionFolder currentDir);
+
+
+PositionFolder pop(PositionStog headStog);
+
+void push(PositionStog headStog, PositionFolder level);
+
+
+int main() {
+    Folder headFolder = {
+        .name = {0},
+        .pod = NULL,
+        .next = NULL
+    };
+    
+    PositionFolder mainDir = createFolder("C:");
+    headFolder.next = mainDir;
+
+    PositionFolder currentDir = mainDir;
+
+    Stog headStog = {
+        .level = NULL,
+        .next = NULL
+    };
+    push(&headStog, currentDir);
+
+    while (1) {
+        printf("\n1. MD\n");
+        printf("2. CD DIR\n");
+        printf("3. CD..\n");
+        printf("4. DIR\n");
+        printf("5. IZLAZ\n");
+
+        int x;
+        scanf("%d", &x);
+
+        if (x == 1) {
+            char dirName[MAX];
+            printf("\tIme:\n");
+            scanf("%s", dirName);
+            createSub(dirName, currentDir);
+        }
+        else if (x == 2) {
+            char dirName[MAX];
+            
+            printf("\tIme:\n");
+            scanf("%s", dirName);
+            
+            push(&headStog, currentDir);
+                        currentDir = CD(dirName, currentDir);
+
+        } else if (x == 3) {
+            if (currentDir != mainDir) {
+                currentDir = pop(&headStog);
+                printf("%s\n", currentDir->name);
+            }
+            else {
+                printf("\tU prvom direktoriju\n");
+                
+            }
+        } else if (x == 4) {
+            DIR(currentDir);
+        } else if (x == 5) {
+            break;
+        }
+    }
+
+    return 0;
+}
 PositionFolder createFolder(char name[MAX]) {
     PositionFolder newFolder = (PositionFolder)malloc(sizeof(Folder));
     if (!newFolder) {
@@ -96,67 +171,4 @@ void push(PositionStog headStog, PositionFolder level) {
     newFolder->level = level;
     newFolder->next = headStog->next;
     headStog->next = newFolder;
-}
-
-
-int main() {
-    Folder headFolder = {
-        .name = {0},
-        .pod = NULL,
-        .next = NULL
-    };
-    
-    PositionFolder mainDir = createFolder("C:");
-    headFolder.next = mainDir;
-
-    PositionFolder currentDir = mainDir;
-
-    Stog headStog = {
-        .level = NULL,
-        .next = NULL
-    };
-    push(&headStog, currentDir);
-
-    while (1) {
-        printf("\n1. MD\n");
-        printf("2. CD DIR\n");
-        printf("3. CD..\n");
-        printf("4. DIR\n");
-        printf("5. IZLAZ\n");
-
-        int x;
-        scanf("%d", &x);
-
-        if (x == 1) {
-            char dirName[MAX];
-            printf("\tIme:\n");
-            scanf("%s", dirName);
-            createSub(dirName, currentDir);
-        }
-        else if (x == 2) {
-            char dirName[MAX];
-            
-            printf("\tIme:\n");
-            scanf("%s", dirName);
-            
-            push(&headStog, currentDir);
-                        currentDir = CD(dirName, currentDir);
-
-        } else if (x == 3) {
-            if (currentDir != mainDir) {
-                currentDir = pop(&headStog);
-                printf("%s\n", currentDir->name);
-            }
-            else {
-                printf("\tU prvom direktoriju\n");
-                
-            }
-        } else if (x == 4) {
-            DIR(currentDir);
-        } else if (x == 5) {
-            break;
-        }
-    }
-
-    return 0;
 }
