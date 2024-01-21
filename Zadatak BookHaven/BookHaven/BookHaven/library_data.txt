@@ -1,0 +1,6 @@
+Book,,,0,0,0
+Book,a,mdsa,5,0,5
+Book,prva,druga,5,0,5
+Book,zz,gsa,7,0,7
+Member,,0,
+Member,andrej,0,

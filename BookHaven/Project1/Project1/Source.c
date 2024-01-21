@@ -1,4 +1,4 @@
-Ôªø#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -137,7 +137,7 @@ int main() {
 PositionBook createBook() {
     PositionBook q = (PositionBook)malloc(sizeof(Book));
     if (q == NULL) {
-        printf("Gre≈°ka prilikom alokacije memorije za knjigu.\n");
+        printf("Greöka prilikom alokacije memorije za knjigu.\n");
         return NULL;
     }
 
@@ -157,7 +157,7 @@ PositionBook createBook() {
     for (int i = 0; i < 5; i++) {
         q->borrowed_by[i] = NULL;
     }
-    printf("\nKnjiga je uspje≈°no dodana!\n");
+    printf("\nKnjiga je uspjeöno dodana!\n");
     return q;
 
 }
@@ -273,7 +273,7 @@ void borrowBook(PositionBook books, PositionMember members) {
             printf("Sve kopije knjige su vec posudjene\n");
             break;
         }
-
+        book->quantity--;
         book->borrowed_by[book->borrowed_qty] = member;
         book->borrowed_qty++;
         member->borrowed_books[member->num_books_borrowed] = book;
@@ -364,8 +364,9 @@ void returnBook(PositionBook books, PositionMember members) {
         }
         book->borrowed_by[4] = NULL;
         book->borrowed_qty--;
+        
     }
-
+    book->quantity++;
     printf("Knjiga je uspjesno vracena.\n");
 }
 

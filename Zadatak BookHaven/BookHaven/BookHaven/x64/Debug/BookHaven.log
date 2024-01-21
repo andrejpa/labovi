@@ -1,5 +1,2 @@
 ﻿  Source.c
-E:\fesb\GitHub\labovi\labovi\Zadatak BookHaven\BookHaven\BookHaven\Source.c(428,16): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
-E:\fesb\GitHub\labovi\labovi\Zadatak BookHaven\BookHaven\BookHaven\Source.c(428,16): warning C4566: character represented by universal-character-name '\u010D' cannot be represented in the current code page (1252)
-E:\fesb\GitHub\labovi\labovi\Zadatak BookHaven\BookHaven\BookHaven\Source.c(481,12): warning C4566: character represented by universal-character-name '\u010D' cannot be represented in the current code page (1252)
   BookHaven.vcxproj -> E:\fesb\GitHub\labovi\labovi\Zadatak BookHaven\BookHaven\x64\Debug\BookHaven.exe
